@@ -1,4 +1,4 @@
-document.getElementById('package-form').addEventListener('submit', async function(event) {
+document.getElementById('package-form').addEventListener('submit', async function (event) {
     event.preventDefault();
 
     // Pobierz dane z formularza
@@ -6,6 +6,8 @@ document.getElementById('package-form').addEventListener('submit', async functio
     const data = {
         packageId: formData.get('package-id'),
         size: formData.get('size'),
+        region: formData.get('region'), // Nowe pole regionu kuriera
+        destination: formData.get('destination'), // Nowe pole destynacji
         senderZip: formData.get('sender-zip'),
         receiverZip: formData.get('receiver-zip'),
         senderName: formData.get('sender-name'),
@@ -18,50 +20,56 @@ document.getElementById('package-form').addEventListener('submit', async functio
         receiverStreet: formData.get('receiver-street'),
         receiverHouse: formData.get('receiver-house'),
         receiverFlat: formData.get('receiver-flat'),
+        senderComment: formData.get('sender-comment') // Pole na dodatkowe uwagi
     };
 
     // Generuj kod QR
     const qr = new QRious({
         value: JSON.stringify(data),
-        size: 200 // Zwiększono rozmiar kodu QR
+        size: 200 // Rozmiar kodu QR
     });
 
     // Tworzenie PDF
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    // Ustawienia czcionki
-    const mainFontSize = 14; // Zwiększona czcionka
-    const subFontSize = 12; // Czcionka dla szczegółów adresowych
+    // Czcionki
+    const headerFontSize = 18;
+    const mainFontSize = 14;
+    const smallFontSize = 10;
+
+    // Logo (opcjonalnie)
+    doc.setFontSize(headerFontSize);
+    doc.text('PPPPPP', 10, 15); // Logo tekstowe zamiast obrazka
     doc.setFontSize(mainFontSize);
 
-    // Sekcja 1: ID paczki, gabaryt i kod QR
-    doc.text(`ID Paczki: ${data.packageId}`, 10, 20);
-    doc.text(`Gabaryt: ${data.size}`, 10, 30);
+    // Kod QR
     const qrImage = qr.toDataURL();
-    doc.addImage(qrImage, 'PNG', 100, 10, 60, 60); // Większy kod QR
+    doc.addImage(qrImage, 'PNG', 120, 7, 60, 60);
 
-
+    // Linie separacyjne
+    doc.setLineWidth(0.5);
+    doc.line(10, 80, 200, 80);
 
     // Sekcja 2: Dane nadawcy
-    doc.text(`Dane nadawcy:`, 10, 80);
-    doc.setFontSize(subFontSize);
-    doc.text(`Imie i nazwisko: ${data.senderName}`, 10, 90);
-    doc.text(`Adres: ${data.senderCity}, ${data.senderStreet}`, 10, 100);
-    doc.text(`Nr domu: ${data.senderHouse}, Nr mieszkania: ${data.senderFlat}`, 10, 110);
-    doc.text(`Kod pocztowy: ${data.senderZip}`, 10, 120);
+    doc.text('Nadawca:', 10, 90);
+    doc.setFontSize(smallFontSize);
+    doc.text(`Imie i nazwisko: ${data.senderName}`, 10, 100);
+    doc.text(`Adres: ${data.senderStreet} ${data.senderHouse}/${data.senderFlat}`, 10, 110);
+    doc.text(`Miasto: ${data.senderCity}, Kod pocztowy: ${data.senderZip}`, 10, 120);
+    if (data.senderComment) {
+        doc.text(`Uwagi: ${data.senderComment}`, 10, 100);
+    }
+    doc.setFontSize(mainFontSize);
 
     // Sekcja 3: Dane odbiorcy
-    doc.setFontSize(mainFontSize);
-    doc.text(`Dane odbiorcy:`, 10, 140);
-    doc.setFontSize(subFontSize);
+    doc.line(10, 130, 200, 130); // Linia separacyjna
+    doc.text('Odbiorca:', 10, 140);
+    doc.setFontSize(smallFontSize);
     doc.text(`Imie i nazwisko: ${data.receiverName}`, 10, 150);
-    doc.text(`Adres: ${data.receiverCity}, ${data.receiverStreet}`, 10, 160);
-    doc.text(`Nr domu: ${data.receiverHouse}, Nr mieszkania: ${data.receiverFlat}`, 10, 170);
-    doc.text(`Kod pocztowy: ${data.receiverZip}`, 10, 180);
-
-    
-
+    doc.text(`Adres: ${data.receiverStreet} ${data.receiverHouse}/${data.receiverFlat}`, 10, 160);
+    doc.text(`Miasto: ${data.receiverCity}, Kod pocztowy: ${data.receiverZip}`, 10, 170);
+    doc.line(10, 180, 200, 180);
     // Pobierz PDF
     doc.save('etykieta.pdf');
 });
