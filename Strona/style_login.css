@@ -10,35 +10,37 @@ body{
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-color: #87a1f7;
-    background: linear-gradient(0deg, rgba(0,32,106,1) 0%, rgba(1,128,247,1) 54%, rgba(41,180,255,1) 94%);}
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+    url('images/logotlo.png');}
+    
+
 .container{
-    background: rgb(0, 0, 0, 0.5);
-    width:450px;
-    padding:1.5rem;
-    margin:50px auto;
+    background: rgb(0, 0, 0, 0.8);
+    width:30%;
+    padding:2%;
+    margin:2% auto;
     border-radius:10px;
     box-shadow:0 20px 35px rgba(0,0,1,0.9);
 }
 form{
-    margin:0 2rem;
+    margin:0 5%;
 }
 .form-title{
-    font-size:35px;
+    font-size: 2.3rem;
     font-weight:bold;
     color: white;
     text-align:center;
-    padding:1.3rem;
-    margin-bottom:0.4rem;
+    padding:2%;
+    margin-bottom:2%;
 }
 input{
-    color:inherit;
+    color:white;
     width:100%;
     background-color:transparent;
     border:none;
-    border-bottom:1px solid #f1b9b9;
+    border-bottom: 0.1rem solid #f1b9b9;
     padding-left:1.5rem;
-    font-size:20px;
+    font-size:1.4rem;
 }
 .input-group{
     padding:1% 0;
@@ -52,7 +54,7 @@ input{
 input:focus{
     background-color: transparent;
     outline:transparent;
-    border-bottom:2px solid hsl(123, 85%, 74%);
+    border-bottom:0.2rem solid hsl(123, 85%, 74%);
 }
 input::placeholder{
     color:transparent;
@@ -68,7 +70,7 @@ label{
 input:focus~label,input:not(:placeholder-shown)~label{
     top:-3em;
     color:hsl(123, 85%, 74%);
-    font-size:15px;
+    font-size:0.9rem;
 }
 .recover{
     text-align:right;
@@ -89,27 +91,28 @@ input:focus~label,input:not(:placeholder-shown)~label{
     font-weight: bold;
     margin: 0 auto;
     text-align: center;
-    padding: 15px 25px;
-    border-radius: 20px;
+    width: 75%;
+    padding: 4%;
+    border-radius: 30px;
     border: none;
     color: black;
-    background: radial-gradient(circle at 10% 20%, rgb(4, 159, 108) 0%, rgb(194, 254, 113) 90.1%); 
-    font-size: 20px;
+    background: rgb(185, 229, 232);
+    font-size: 1.6rem;
     overflow: hidden;
     transition: .5s;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    letter-spacing: 2px
+    margin-top: 2%;
+    margin-bottom: 2%;
+    letter-spacing: 0.05rem;
   }
   .btn:hover {
-    background: radial-gradient(circle at 10% 20%, rgb(4, 159, 108) 0%, rgb(194, 254, 113) 90.1%); 
+    background: rgb(185, 229, 232);
     color: #000000;
     font-weight: bold;
     border-radius: 20px;
-    box-shadow: 0 0 2px #5eff81,
-                0 0 10px #5eff81,
-                0 0 20px #5eff81,
-                0 0 30px #5eff81;
+    box-shadow: 0 0 2px #b2e1f0,
+        0 0 10px #b2e1f0,
+        0 0 20px #b2e1f0,
+        0 0 30px #b2e1f0;
   }
   
 .or{
@@ -126,8 +129,8 @@ input:focus~label,input:not(:placeholder-shown)~label{
     border-radius:10px;
     font-size:1.5rem;
     cursor:pointer;
-    border:2px solid #dfe9f5;
-    margin:0 15px;
+    border:0.1rem solid #dfe9f5;
+    margin:0 3rem;
     transition:1s;
 }
 .icons i:hover{
