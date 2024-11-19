@@ -1,10 +1,11 @@
 document.getElementById('package-form').addEventListener('submit', async function (event) {
     event.preventDefault();
 
+
     // Pobierz dane z formularza
     const formData = new FormData(event.target);
     const data = {
-        packageId: formData.get('package-id'),
+        // packageId: formData.get('package-id'), //packageid niepotrzebne
         size: formData.get('size'),
         region: formData.get('region'), // Nowe pole regionu kuriera
         destination: formData.get('destination'), // Nowe pole destynacji
@@ -26,17 +27,17 @@ document.getElementById('package-form').addEventListener('submit', async functio
     // Generuj kod QR
     const qr = new QRious({
         value: JSON.stringify(data),
-        size: 200 // Rozmiar kodu QR
+        size: 130 // Rozmiar kodu QR
     });
 
     // Tworzenie PDF
     const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
+    const doc = new jsPDF('p', 'mm', 'a6');
 
     // Czcionki
-    const headerFontSize = 18;
-    const mainFontSize = 14;
-    const smallFontSize = 10;
+    const headerFontSize = 16;
+    const mainFontSize = 10;
+    const smallFontSize = 8;
 
     // Logo (opcjonalnie)
     doc.setFontSize(headerFontSize);
@@ -45,31 +46,33 @@ document.getElementById('package-form').addEventListener('submit', async functio
 
     // Kod QR
     const qrImage = qr.toDataURL();
-    doc.addImage(qrImage, 'PNG', 120, 7, 60, 60);
+    doc.addImage(qrImage, 'PNG', 50, 2, 45, 45);  // Pozycja i rozmiar QR w A6
 
     // Linie separacyjne
     doc.setLineWidth(0.5);
-    doc.line(10, 80, 200, 80);
+    doc.line(10, 51, 100, 51);
 
     // Sekcja 2: Dane nadawcy
-    doc.text('Nadawca:', 10, 90);
+    doc.text('Nadawca:', 10, 61);
     doc.setFontSize(smallFontSize);
-    doc.text(`Imie i nazwisko: ${data.senderName}`, 10, 100);
-    doc.text(`Adres: ${data.senderStreet} ${data.senderHouse}/${data.senderFlat}`, 10, 110);
-    doc.text(`Miasto: ${data.senderCity}, Kod pocztowy: ${data.senderZip}`, 10, 120);
-    if (data.senderComment) {
-        doc.text(`Uwagi: ${data.senderComment}`, 10, 100);
-    }
-    doc.setFontSize(mainFontSize);
+    doc.text(`Imie i nazwisko: ${data.senderName}`, 10, 68);
+    doc.text(`Adres: ${data.senderStreet} ${data.senderHouse}/${data.senderFlat}`, 10, 75);
+    doc.text(`Miasto: ${data.senderCity}, Kod pocztowy: ${data.senderZip}`, 10, 82);
 
     // Sekcja 3: Dane odbiorcy
-    doc.line(10, 130, 200, 130); // Linia separacyjna
-    doc.text('Odbiorca:', 10, 140);
+    doc.line(10, 89, 100, 89); // Linia separacyjna
+    doc.text('Odbiorca:', 10, 99);
     doc.setFontSize(smallFontSize);
-    doc.text(`Imie i nazwisko: ${data.receiverName}`, 10, 150);
-    doc.text(`Adres: ${data.receiverStreet} ${data.receiverHouse}/${data.receiverFlat}`, 10, 160);
-    doc.text(`Miasto: ${data.receiverCity}, Kod pocztowy: ${data.receiverZip}`, 10, 170);
-    doc.line(10, 180, 200, 180);
+    doc.text(`Imie i nazwisko: ${data.receiverName}`, 10, 106);
+    doc.text(`Adres: ${data.receiverStreet} ${data.receiverHouse}/${data.receiverFlat}`, 10, 113);
+    doc.text(`Miasto: ${data.receiverCity}, Kod pocztowy: ${data.receiverZip}`, 10, 120);
+
+    if (data.senderComment) {
+        doc.text(`Uwagi: ${data.senderComment}`, 10, 130);
+    }
+
+    doc.line(10, 140, 100, 140);
+
     // Pobierz PDF
     doc.save('etykieta.pdf');
 });

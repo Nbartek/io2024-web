@@ -9,169 +9,211 @@ body {
     font-family: sans-serif;
     line-height: 1.6;
     color: #333;
-    background: rgb(0,32,106);
-    background: linear-gradient(0deg, rgba(0,32,106,1) 0%, rgba(1,128,247,1) 54%, rgba(41,180,255,1) 94%);
-    padding: 20px;
+    background: rgb(74, 98, 138);
+    padding: 2%;
 }
 
 h1 {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 2%;
     color: #ffffff;
 }
 
 form {
-    max-width: 800px;
+    max-width: 60%;
     margin: 0 auto;
     background: rgb(0, 0, 0, 0.5);
-    padding: 30px;
-    border-radius: 20px;
+    padding: 3%;
+    border-radius: 40px;
     box-shadow: 3px 3px 30px 5px rgba(0, 0, 0, 0.6);
 }
 .form .message {
-    margin: 15px 0 0;
+    margin: 2% 0 0;
     color: #b3b3b3;
-    font-size: 14px;
-  }
-  .form .message a {
+    font-size: 1rem;
+}
+.form .message a {
     color: #289bb8;
     text-decoration: none;
-  }
-  .form .register-form {
+}
+.form .register-form {
     display: none;
-  }
+}
 
 label {
     display: block;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 1%;
     color: #ffffff;
 }
 
 input, textarea {
     width: 100%;
-    padding: 10px 0;
-    font-size: 17px;
-    color: #fff;
-    margin-bottom: 30px;
+    padding: 1%;
+    font-size: 1.1rem;
+    color: #ffffff;
+    margin-bottom: 3%;
     border: none;
     border-bottom: 1px solid #fff;
     outline: none;
     background: transparent;
 }
 
-input:focus, textarea:focus {
-    outline: none;
-    border-color: #007bff;
-    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
-}
-
-
 /* Stylizacja kontenera listy */
 .size-container {
     position: relative;
-    width: 30%;
+    width: 20%;
     border-color: white;
-    margin-top: 15px;
-    margin-bottom: 15px;
-    margin-right: 10px;
-
+    margin: 2% 1% 2% 0;
 }
 
 /* Stylizacja samej listy select */
 .sizebox {
-    font-size: 14px; /* Rozmiar czcionki */
-    padding: 15px;
-    border-color: white; /* Ramka wokół listy */
-    border-radius: 20px; /* Zaokrąglone rogi */
-    background-color: transparent; /* Przezroczyste tło */
-    color: white; /* Biały tekst */
-    width: 100%; /* Szerokość na 100% kontenera */
-    box-sizing: border-box; /* Uwzględnienie paddingu w szerokości */
-    transition: border-color 0.3s ease; /* Animacja zmiany koloru ramki */
+    font-size: 0.9rem;
+    padding: 5%;
+    border-color: white;
+    border-radius: 30px;
+    background-color: transparent;
+    color: white;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
 }
-
-
 
 /* Stylizacja opcji w rozwijanej liście */
 .sizebox option {
     border-color: white;
-    background-color: rgba(255, 255, 255, 0); /* Tło opcji przezroczyste */
-    color: black; /* Biały tekst w opcjach */
-    padding: 10px; /* Przestrzeń wewnętrzna w opcjach */
-    font-size: 14px; /* Czcionka dla opcji */
+    background-color: rgba(255, 255, 255, 0);
+    color: black;
+    padding: 1%;
+    font-size: 0.9rem;
 }
 
 /* Zmiana tła i tekstu dla rozwiniętej listy */
 .sizebox:focus, .sizebox:hover {
     border-color: white;
     background-color: transparent;
-    border-color: #888; /* Zmiana koloru ramki przy najechaniu lub kliknięciu */
+    border-color: #888;
 }
 
-/* Stylizacja dla rozwiniętej listy, zmiana koloru tła */
 .sizebox option:hover {
     border-color: white;
     background-color: rgb(13, 81, 126);
-    color: white; /* Biały tekst dla opcji przy hover */
+    color: white;
 }
 
 .sizebox option:disabled {
-    color: black; /* Jasnoszary tekst dla domyślnej opcji */
+    color: black;
 }
 
 .poleno {
-    margin: 15px;
-    font-size: 13px;
+    margin: 2%;
+    font-size: 0.8rem;
     font-weight: lighter;
 }
-
 
 .btn {
     display: block;
     margin: 0 auto;
     text-align: center;
     font-weight: bold;
-    padding: 15px 25px;
-    padding-left: 80px;
-    padding-right: 80px;
+    width: 70%;
+    padding: 2% 10%;
     border-radius: 40px;
     border: none;
-    background: radial-gradient(circle at 10% 20%, rgb(4, 159, 108) 0%, rgb(194, 254, 113) 90.1%); 
+    background: rgb(185, 229, 232);
     color: #000000;
-    font-size: 27px;
+    font-size: 1.8rem;
     text-decoration: none;
     overflow: hidden;
-    transition: .5s;
-    margin-top: 30px;
-    margin-bottom: 20px;
-    letter-spacing: 2px
-  }
-  .btn:hover {
-    background: radial-gradient(circle at 10% 20%, rgb(4, 159, 108) 0%, rgb(194, 254, 113) 90.1%); 
+    transition: 0.5s;
+    margin-top: 3%;
+    margin-bottom: 2%;
+    letter-spacing: 0.2em;
+}
+
+.btn:hover {
+    background: rgb(185, 229, 232);
     font-weight: bold;
     color: #000000;
     border-radius: 40px;
-    box-shadow: 0 0 2px #5eff81,
-    0 0 10px #5eff81,
-    0 0 20px #5eff81,
-    0 0 30px #5eff81;
-  }
-  
+    box-shadow: 0 0 2px #b2e1f0,
+        0 0 10px #b2e1f0,
+        0 0 20px #b2e1f0,
+        0 0 30px #b2e1f0;
+}
+.logo {
+    position: absolute;
+    top: 2%;
+    left: 5%;
+    width: 10%; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+    z-index: 10; /* Ensure it appears above other elements */
+}
 
+.user-info {
+    position: absolute;
+    top: 3%;
+    right: 2%;
+    background-color: transparent;
+    border:none;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    font-weight: bold;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-info #logout-button {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bold;
+    width: 70%;
+    padding: 2%;
+    border: none;
+    background: rgb(185, 229, 232);
+    color: #000000;
+    border-radius: 30px;
+    font-size: 1rem;
+    text-decoration: none;
+    overflow: hidden;
+    transition: 0.5s;
+    margin-top: 7%;
+    margin-bottom: 5%;
+}
+
+.user-info #logout-button:hover {
+    background-color: #c75c59;
+}
 
 /* Responsywność */
 @media (max-width: 768px) {
     body {
-        padding: 10px;
+        padding: 5%;
     }
 
     form {
-        padding: 15px;
+        padding: 5%;
+        max-width: 100%; /* Formularz zajmuje pełną szerokość ekranu */
     }
 
-    button {
-        font-size: 14px;
+    .btn {
+        font-size: 1.2rem;
+    }
+
+    input, textarea {
+        max-width: 100%; /* Ustalamy, żeby pola wejściowe zajmowały całą szerokość na mniejszych ekranach */
+    }
+
+    .size-container {
+        width: 100%; /* Zmieniamy szerokość kontenera select na 100% */
+    }
+
+    .sizebox {
+        width: 100%;
     }
 }
 
