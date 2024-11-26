@@ -163,7 +163,7 @@ input, textarea {
     color: white;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 5%;
 }
 
 .user-info #logout-button {
