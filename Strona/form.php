@@ -1,3 +1,7 @@
+<?php
+    session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -11,12 +15,9 @@
 </head>
 <body>
     <img src="images/logotyp.png" alt="Logo"   class="logo">
-    <form id="package-form">
+    <form id="package-form" method="post" action="daneform.php">
         <h1>Wypełnij formularz</h1>
-        <!-- <label for="package-id">ID Paczki</label>
-        <input type="number" id="package-id" name="package-id" required> -->
-
-        <label for="size">Gabaryt</label>
+                <label for="size">Gabaryt</label>
     <div class="size-container">
         <select class= "sizebox" id="size" name="size" required>
             <option value="" disabled selected>Gabaryt</option>
@@ -58,17 +59,16 @@
 
 
 
-        <button type="submit" class="btn" href="#">Generuj etykietę PDF</button>
+        <button type="submit" class="btn" >Generuj etykietę PDF</button>
     </form>
     <div class="user-info">
-        <span id="logged-user">Zalogowany jako: <string>Jan Kowalski</string></span>
+        <span id="logged-user">Zalogowany jako: <?php echo $_SESSION['email']; ?>
         <button id="logout-button">Wyloguj</button>
     </div>
     <script src = "pdfscript.js"></script>
 
     <script src="formaty.js"></script>
     
-
 
 </body>
 </html>
