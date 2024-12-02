@@ -1,14 +1,50 @@
 document.getElementById('package-form').addEventListener('submit', async function (event) {
-    event.preventDefault();
+    event.preventDefault(); // Zatrzymanie domyślnego wysyłania
+
+    const formData = new FormData(event.target); // Pobranie danych z formularza
+
+    try {
+        // Wyślij dane do serwera
+        const response = await fetch('daneform.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        if (!response.ok) {
+            throw new Error(`Błąd HTTP: ${response.status}`);
+        }
+
+        const result = await response.json(); // Oczekujemy odpowiedzi JSON
+
+        if (result.error) {
+            throw new Error(`Serwer zwrócił błąd: ${result.error}`);
+        }
+
+        const packageId = result.package_id;
+
+        // Teraz generujemy etykietę po otrzymaniu ID paczki
+        generateLabel(packageId, formData);
 
 
-    // Pobierz dane z formularza
-    const formData = new FormData(event.target);
+    } catch (error) {
+        console.error('Wystąpił błąd podczas wysyłania formularza:', error);
+        alert('Wystąpił błąd podczas wysyłania formularza. Spróbuj ponownie.');
+    }
+});
+
+// Funkcja generująca etykietę
+function generateLabel(packageId, formData) {
+    // Generowanie kodu QR tylko z ID paczki
+    const qr = new QRious({
+        value: packageId.toString(), // Tylko ID paczki
+        size: 130
+    });
+
+    // Pobranie danych z formularza do wyświetlenia na etykiecie
     const data = {
-        // packageId: formData.get('package-id'), //packageid niepotrzebne
         size: formData.get('size'),
-        region: formData.get('region'), // Nowe pole regionu kuriera
-        destination: formData.get('destination'), // Nowe pole destynacji
+        region: formData.get('region'),
+        destination: formData.get('destination'),
         senderZip: formData.get('sender-zip'),
         receiverZip: formData.get('receiver-zip'),
         senderName: formData.get('sender-name'),
@@ -21,58 +57,33 @@ document.getElementById('package-form').addEventListener('submit', async functio
         receiverStreet: formData.get('receiver-street'),
         receiverHouse: formData.get('receiver-house'),
         receiverFlat: formData.get('receiver-flat'),
-        senderComment: formData.get('sender-comment') // Pole na dodatkowe uwagi
+        senderComment: formData.get('sender-comment')
     };
 
-    // Generuj kod QR
-    const qr = new QRious({
-        value: JSON.stringify(data),
-        size: 130 // Rozmiar kodu QR
-    });
+            const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a6');
 
-    // Tworzenie PDF
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF('p', 'mm', 'a6');
+        doc.setFontSize(16);
+        doc.text('PPPPPP', 10, 15);
+        const qrImage = qr.toDataURL();
+        doc.addImage(qrImage, 'PNG', 50, 2, 45, 45);
 
-    // Czcionki
-    const headerFontSize = 16;
-    const mainFontSize = 10;
-    const smallFontSize = 8;
+        doc.setFontSize(10);
+        doc.text('Nadawca:', 10, 61);
+        doc.setFontSize(8);
+        doc.text(`Imie i nazwisko: ${data.senderName}`, 10, 68);
+        doc.text(`Adres: ${data.senderStreet} ${data.senderHouse}/${data.senderFlat}`, 10, 75);
+        doc.text(`Miasto: ${data.senderCity}, Kod pocztowy: ${data.senderZip}`, 10, 82);
 
-    // Logo (opcjonalnie)
-    doc.setFontSize(headerFontSize);
-    doc.text('PPPPPP', 10, 15); // Logo tekstowe zamiast obrazka
-    doc.setFontSize(mainFontSize);
+        doc.text('Odbiorca:', 10, 99);
+        doc.setFontSize(8);
+        doc.text(`Imie i nazwisko: ${data.receiverName}`, 10, 106);
+        doc.text(`Adres: ${data.receiverStreet} ${data.receiverHouse}/${data.receiverFlat}`, 10, 113);
+        doc.text(`Miasto: ${data.receiverCity}, Kod pocztowy: ${data.receiverZip}`, 10, 120);
 
-    // Kod QR
-    const qrImage = qr.toDataURL();
-    doc.addImage(qrImage, 'PNG', 50, 2, 45, 45);  // Pozycja i rozmiar QR w A6
+        if (data.senderComment) {
+            doc.text(`Uwagi: ${data.senderComment}`, 10, 130);
+        }
 
-    // Linie separacyjne
-    doc.setLineWidth(0.5);
-    doc.line(10, 51, 100, 51);
-
-    // Sekcja 2: Dane nadawcy
-    doc.text('Nadawca:', 10, 61);
-    doc.setFontSize(smallFontSize);
-    doc.text(`Imie i nazwisko: ${data.senderName}`, 10, 68);
-    doc.text(`Adres: ${data.senderStreet} ${data.senderHouse}/${data.senderFlat}`, 10, 75);
-    doc.text(`Miasto: ${data.senderCity}, Kod pocztowy: ${data.senderZip}`, 10, 82);
-
-    // Sekcja 3: Dane odbiorcy
-    doc.line(10, 89, 100, 89); // Linia separacyjna
-    doc.text('Odbiorca:', 10, 99);
-    doc.setFontSize(smallFontSize);
-    doc.text(`Imie i nazwisko: ${data.receiverName}`, 10, 106);
-    doc.text(`Adres: ${data.receiverStreet} ${data.receiverHouse}/${data.receiverFlat}`, 10, 113);
-    doc.text(`Miasto: ${data.receiverCity}, Kod pocztowy: ${data.receiverZip}`, 10, 120);
-
-    if (data.senderComment) {
-        doc.text(`Uwagi: ${data.senderComment}`, 10, 130);
-    }
-
-    doc.line(10, 140, 100, 140);
-
-    // Pobierz PDF
-    doc.save('etykieta.pdf');
-});
+        doc.save('etykieta.pdf');
+}
