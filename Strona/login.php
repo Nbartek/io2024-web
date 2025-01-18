@@ -2,32 +2,50 @@
 
 session_start();
 
-require_once 'connect.php';
+require_once "connect.php";
 
-$connection= @new mysqli($host,$user,$pass,$db);
 
-if($connection->connect_errno!=0){
-    echo "Failed to connect to DB".$connection->connect_errno;
-}
-else{
-$email=$_POST['email'];
-$password=$_POST['password'];
+try {
+    $conn = new PDO("sqlsrv:server=$serverName;Database=$database", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-$sql = "SELECT * FROM logowanie WHERE email='$email' AND haslo='$password'";
-if ($result = $connection->query($sql)){
-    $users=$result->num_rows;
-    if($users> 0){
-        $wers=$result->fetch_assoc();
-        $_SESSION['email'] = $wers["email"];
-        $password = $wers["password"];
-        $result->free_result();
-        header('Location: form.php');
-}else{ 
-    echo "";
-}
+    $inputUsername = $_POST['login'] ?? null;
+    $inputPassword = $_POST['password'] ?? null;
 
-$connection->close();
-}
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (!$inputUsername || !$inputPassword) {
+            $_SESSION['error'] = "Login i hasło muszą być podane.";
+            header('Location: login.php');
+            exit();
+        }
+
+        $sql = "SELECT 1 FROM dbo.Pracownicy WHERE Login = :username AND Hasło = :password";
+        $stmt = $conn->prepare($sql);
+
+        $stmt->bindParam(':username', $inputUsername, PDO::PARAM_STR);
+        $stmt->bindParam(':password', $inputPassword, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $isValidUser = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($isValidUser) {
+            $_SESSION['login'] = $inputUsername;
+            header('Location: form.php');
+            exit();
+        } else {
+            $_SESSION['error'] = "Nieprawidłowy login lub hasło.";
+            header('Location: login.html');
+            exit();
+        }
+    }
+} catch (PDOException $e) {
+    $_SESSION['error'] = "Błąd połączenia z SQL Server: " . $e->getMessage();
+    header('Location: login.php');
+    exit();
+} catch (Exception $e) {
+    $_SESSION['error'] = "Wystąpił błąd: " . $e->getMessage();
+    header('Location: login.php');
+    exit();
 }
 
 ?>

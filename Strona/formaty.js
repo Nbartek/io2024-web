@@ -1,38 +1,34 @@
 function formatZipCode(input) {
-    let value = input.value.replace(/[^0-9]/g, '');  // Usuwamy wszystko oprócz cyfr
+    let value = input.value.replace(/[^0-9]/g, ''); 
     if (value.length > 2) {
-        value = value.slice(0, 2) + '-' + value.slice(2, 6); // Dodajemy pauzę po drugiej cyfrze
+        value = value.slice(0, 2) + '-' + value.slice(2, 6); 
     }
-    input.value = value;  // Zaktualizowanie wartości pola
+    input.value = value;  
 }
- // Funkcja walidacji tekstu (imię, miasto, itp.)
  function validateText(input, fieldName) {
-    const regex = /^[A-Za-ząćęłńóśżźĄĆĘŁŃÓŚŻŹ\s]+$/; // Zezwalamy tylko na litery i spacje
+    const regex = /^[A-Za-ząćęłńóśżźĄĆĘŁŃÓŚŻŹ\s]+$/; 
     if (!regex.test(input.value)) {
         alert(`Pole "${fieldName}" może zawierać tylko litery i spacje.`);
-        input.setCustomValidity('Nieprawidłowy format.'); // Wyświetlenie błędu
+        input.setCustomValidity('Nieprawidłowy format.'); 
     } else {
-        input.setCustomValidity(''); // Jeśli jest poprawnie, usuwamy błąd
+        input.setCustomValidity(''); 
     }
 }
 
-// Funkcja walidacji formularza
 document.getElementById('package-form').addEventListener('submit', function (event) {
     const form = event.target;
     if (!form.checkValidity()) {
-        event.preventDefault(); // Zapobiegaj wysłaniu formularza, jeśli jest nieprawidłowy
+        event.preventDefault(); 
     }
 });
 
-// Funkcja walidacji numerów domu i mieszkania, zapobiegająca wprowadzaniu liczb ujemnych
 function validatePositiveNumber(input) {
     if (parseInt(input.value) < 0) {
         alert("Numer domu/mieszkania nie może być liczbą ujemną.");
-        input.value = ''; // Możemy także wyczyścić pole, jeśli liczba jest ujemna
+        input.value = ''; 
     }
 }
 
-// Dodatkowy kod, aby obsłużyć walidację po każdej zmianie w polu
 document.getElementById('sender-house').addEventListener('input', function() {
     validatePositiveNumber(this);
 });

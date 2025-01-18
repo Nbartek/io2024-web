@@ -21,8 +21,8 @@
     <div class="size-container">
         <select class= "sizebox" id="size" name="size" required>
             <option value="" disabled selected>Gabaryt</option>
-            <option value="tak">TAK</option>
-            <option value="nie">NIE</option>
+            <option value="1">TAK</option>
+            <option value="0">NIE</option>
         </select>
       
     </div>
@@ -50,9 +50,9 @@
         <input type="text" id="receiver-street" name="receiver-street" placeholder="Ulica" required>
         <input type="number" id="receiver-house" name="receiver-house" placeholder="Numer Domu" required min="0">
         <input type="number" id="receiver-flat" name="receiver-flat" placeholder="Numer Mieszkania*" min="0">
-        <label for="region">Dane kurierskie</label>
-        <input type="text" id="region" name="region" placeholder="Region kurierski" required>
-        <input type="text" id="destination" name="destination" placeholder="Destynacja" required>
+        <!-- <label for="region">Dane kurierskie</label> -->
+        <!-- <input type="text" id="region" name="region" placeholder="Region kurierski" required>
+        <input type="text" id="destination" name="destination" placeholder="Destynacja" required> -->
         <label for="sender-comment">Uwagi nadawcy</label>        
         <textarea id="sender-comment" name="sender-comment"></textarea>
         <label class="poleno"> *Pole nieobowiązkowe</label>
@@ -62,8 +62,8 @@
         <button type="submit" class="btn" >Generuj etykietę PDF</button>
     </form>
     <div class="user-info">
-        <span id="logged-user">Zalogowany jako: <?php echo $_SESSION['email']; ?>
-        <button id="logout-button">Wyloguj</button>
+    <span id="logged-user">Zalogowany jako: <?php echo $_SESSION['login']; ?></span>
+    <a href="logout.php" id="logout-button">Wyloguj</a>
     </div>
     <script src = "pdfscript.js"></script>
 
